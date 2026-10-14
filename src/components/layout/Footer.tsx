@@ -1,5 +1,3 @@
-// components/layout/Footer.tsx
-
 const currentYear = new Date().getFullYear();
 
 export default function Footer() {

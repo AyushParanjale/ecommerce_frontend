@@ -1,12 +1,13 @@
+import { Link } from 'react-router-dom';
 import { ShoppingCart, User } from 'lucide-react';
 
 export default function Header() {
 	return (
 		<header className="sticky top-0 z-10 border-b bg-white">
 			<div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
-				<a href="/" className="text-xl font-bold text-slate-900">
+				<Link to="/" className="text-xl font-bold text-slate-900">
 					Reprua
-				</a>
+				</Link>
 
 				<div className="hidden w-full max-w-md md:block">
 					<input
