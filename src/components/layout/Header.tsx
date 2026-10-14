@@ -1,7 +1,10 @@
 import { Link } from 'react-router-dom';
-import { ShoppingCart, User } from 'lucide-react';
+import { ShoppingCart, User, LogOut } from 'lucide-react';
+import { useAuth } from '../../context/AuthContext';
 
 export default function Header() {
+	const { user, isAuthenticated, logout } = useAuth();
+
 	return (
 		<header className="sticky top-0 z-10 border-b bg-white">
 			<div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
@@ -29,14 +32,31 @@ export default function Header() {
 						</span>
 					</button>
 
-					<button
-						type="button"
-						aria-label="Sign in"
-						className="flex items-center gap-1.5 text-sm font-medium text-slate-700 hover:text-slate-900"
-					>
-						<User size={18} aria-hidden="true" />
-						Sign in
-					</button>
+					{isAuthenticated ? (
+						<div className="flex items-center gap-3">
+							<span className="flex items-center gap-1.5 text-sm font-medium text-slate-700">
+								<User size={18} aria-hidden="true" />
+								{user!.name}
+							</span>
+							<button
+								type="button"
+								onClick={logout}
+								aria-label="Sign out"
+								className="flex items-center gap-1 text-sm text-slate-500 hover:text-slate-900"
+							>
+								<LogOut size={16} aria-hidden="true" />
+								Sign out
+							</button>
+						</div>
+					) : (
+						<Link
+							to="/login"
+							className="flex items-center gap-1.5 text-sm font-medium text-slate-700 hover:text-slate-900"
+						>
+							<User size={18} aria-hidden="true" />
+							Sign in
+						</Link>
+					)}
 				</div>
 			</div>
 		</header>
