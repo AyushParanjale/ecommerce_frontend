@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { Package } from 'lucide-react';
 import type { Product } from '../types/product';
 
@@ -13,26 +14,30 @@ export default function ProductCard({ product }: ProductCardProps) {
 
 	return (
 		<article className="flex flex-col overflow-hidden rounded-lg bg-white shadow-sm transition-shadow hover:shadow-md">
-			<div className="aspect-[4/3] bg-slate-100">
-				{showFallback ? (
-					<div className="flex h-full items-center justify-center text-slate-300">
-						<Package size={48} aria-hidden="true" />
-					</div>
-				) : (
-					<img
-						src={product.imageUrl!}
-						alt={product.name}
-						onError={() => setImageError(true)}
-						className="h-full w-full object-cover"
-					/>
-				)}
-			</div>
+			<Link to={`/products/${product.id}`} className="flex flex-1 flex-col">
+				<div className="aspect-[4/3] bg-slate-100">
+					{showFallback ? (
+						<div className="flex h-full items-center justify-center text-slate-300">
+							<Package size={48} aria-hidden="true" />
+						</div>
+					) : (
+						<img
+							src={product.imageUrl!}
+							alt={product.name}
+							onError={() => setImageError(true)}
+							className="h-full w-full object-cover"
+						/>
+					)}
+				</div>
 
-			<div className="flex flex-1 flex-col p-4">
-				<span className="mb-1 text-xs font-medium text-blue-600">{product.category}</span>
-				<h2 className="mb-1 line-clamp-2 text-sm font-semibold text-slate-900">{product.name}</h2>
-				<p className="mb-3 line-clamp-3 flex-1 text-xs text-slate-500">{product.description}</p>
+				<div className="flex flex-1 flex-col px-4 pt-4">
+					<span className="mb-1 text-xs font-medium text-blue-600">{product.category}</span>
+					<h2 className="mb-1 line-clamp-2 text-sm font-semibold text-slate-900">{product.name}</h2>
+					<p className="line-clamp-3 flex-1 text-xs text-slate-500">{product.description}</p>
+				</div>
+			</Link>
 
+			<div className="px-4 pb-4 pt-3">
 				<div className="mb-3 flex items-center justify-between">
 					<span className="text-lg font-bold text-slate-900">
 						${product.price.toFixed(2)}

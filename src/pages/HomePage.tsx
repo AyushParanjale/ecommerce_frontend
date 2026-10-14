@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import Hero from '../components/Hero';
 import CategoryFilter from '../components/CategoryFilter';
 import ProductGrid from '../components/ProductGrid';
@@ -11,13 +12,21 @@ export default function HomePage() {
 	const [products, setProducts] = useState<Product[]>([]);
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState<string | null>(null);
-	const [selectedCategory, setSelectedCategory] = useState('All');
+	const [searchParams, setSearchParams] = useSearchParams();
 
 	function loadProducts() {
 		fetchProducts()
 			.then((data) => {
 				setProducts(data);
 				setLoading(false);
+				// Remove the category param if it doesn't match any loaded product
+				const urlCategory = searchParams.get('category');
+				if (urlCategory) {
+					const validCategories = data.map((p) => p.category);
+					if (!validCategories.includes(urlCategory)) {
+						setSearchParams({});
+					}
+				}
 			})
 			.catch((err: unknown) => {
 				setError(err instanceof Error ? err.message : 'Something went wrong.');
@@ -35,11 +44,22 @@ export default function HomePage() {
 		loadProducts();
 	}, []);
 
+	const categoryParam = searchParams.get('category') ?? 'All';
 	const categories = ['All', ...Array.from(new Set(products.map((p) => p.category))).sort()];
+	// Only use the URL category if it's present in loaded products; otherwise fall back to All
+	const selectedCategory = categories.includes(categoryParam) ? categoryParam : 'All';
 	const filteredProducts =
 		selectedCategory === 'All'
 			? products
 			: products.filter((p) => p.category === selectedCategory);
+
+	function handleCategorySelect(category: string) {
+		if (category === 'All') {
+			setSearchParams({});
+		} else {
+			setSearchParams({ category });
+		}
+	}
 
 	return (
 		<>
@@ -57,7 +77,7 @@ export default function HomePage() {
 						<CategoryFilter
 							categories={categories}
 							selected={selectedCategory}
-							onSelect={setSelectedCategory}
+							onSelect={handleCategorySelect}
 						/>
 						<ProductGrid products={filteredProducts} />
 					</>
