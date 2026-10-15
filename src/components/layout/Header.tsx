@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { ShoppingCart, User, LogOut, Package } from 'lucide-react';
+import { ShoppingCart, User, LogOut, Package, Shield } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { useCart } from '../../context/CartContext';
 
@@ -36,6 +36,16 @@ export default function Header() {
 
 					{isAuthenticated ? (
 						<div className="flex items-center gap-3">
+							{user!.role === 'Admin' && (
+								<Link
+									to="/admin"
+									className="flex items-center gap-1.5 text-sm font-medium text-slate-700 hover:text-slate-900"
+									aria-label="Admin area"
+								>
+									<Shield size={18} aria-hidden="true" />
+									<span className="hidden sm:inline">Admin</span>
+								</Link>
+							)}
 							<Link
 								to="/orders"
 								className="flex items-center gap-1.5 text-sm font-medium text-slate-700 hover:text-slate-900"

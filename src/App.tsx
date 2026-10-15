@@ -6,12 +6,17 @@ import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 import NotFoundPage from './pages/NotFoundPage';
 import ProtectedRoute from './components/ProtectedRoute';
+import AdminRoute from './components/AdminRoute';
 import CartPage from './pages/CartPage';
 import CheckoutPage from './pages/CheckoutPage';
 import PaymentPage from './pages/PaymentPage';
 import OrderResultPage from './pages/OrderResultPage';
 import OrderHistoryPage from './pages/OrderHistoryPage';
 import OrderDetailsPage from './pages/OrderDetailsPage';
+import AdminDashboardPage from './pages/admin/AdminDashboardPage';
+import AdminProductListPage from './pages/admin/AdminProductListPage';
+import AdminProductCreatePage from './pages/admin/AdminProductCreatePage';
+import AdminProductEditPage from './pages/admin/AdminProductEditPage';
 
 export default function App() {
 	return (
@@ -29,6 +34,14 @@ export default function App() {
 						<Route path=":orderId" element={<OrderDetailsPage />} />
 						<Route path=":orderId/payment" element={<PaymentPage />} />
 						<Route path=":orderId/result" element={<OrderResultPage />} />
+					</Route>
+					<Route path="admin" element={<AdminRoute />}>
+						<Route index element={<AdminDashboardPage />} />
+						<Route path="products">
+							<Route index element={<AdminProductListPage />} />
+							<Route path="new" element={<AdminProductCreatePage />} />
+							<Route path=":productId/edit" element={<AdminProductEditPage />} />
+						</Route>
 					</Route>
 				</Route>
 				<Route path="*" element={<NotFoundPage />} />

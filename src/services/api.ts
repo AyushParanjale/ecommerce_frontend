@@ -12,10 +12,20 @@ export function createApiUrl(path: string): string {
 	return `${API_BASE_URL}${path}`;
 }
 
-interface ProblemDetails {
+export interface ProblemDetails {
 	title?: string;
 	detail?: string;
+	status?: number;
 	errors?: Record<string, string[]>;
+}
+
+export async function extractProblemDetails(response: Response): Promise<ProblemDetails> {
+	try {
+		const data: unknown = await response.json();
+		return data as ProblemDetails;
+	} catch {
+		return { title: `Request failed with status ${response.status}`, status: response.status };
+	}
 }
 
 export async function extractErrorMessage(response: Response): Promise<string> {
