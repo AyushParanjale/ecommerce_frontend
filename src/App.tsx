@@ -10,6 +10,8 @@ import CartPage from './pages/CartPage';
 import CheckoutPage from './pages/CheckoutPage';
 import PaymentPage from './pages/PaymentPage';
 import OrderResultPage from './pages/OrderResultPage';
+import OrderHistoryPage from './pages/OrderHistoryPage';
+import OrderDetailsPage from './pages/OrderDetailsPage';
 
 export default function App() {
 	return (
@@ -22,8 +24,12 @@ export default function App() {
 				<Route element={<ProtectedRoute />}>
 					<Route path="cart" element={<CartPage />} />
 					<Route path="checkout" element={<CheckoutPage />} />
-					<Route path="orders/:orderId/payment" element={<PaymentPage />} />
-					<Route path="orders/:orderId/result" element={<OrderResultPage />} />
+					<Route path="orders">
+						<Route index element={<OrderHistoryPage />} />
+						<Route path=":orderId" element={<OrderDetailsPage />} />
+						<Route path=":orderId/payment" element={<PaymentPage />} />
+						<Route path=":orderId/result" element={<OrderResultPage />} />
+					</Route>
 				</Route>
 				<Route path="*" element={<NotFoundPage />} />
 			</Route>

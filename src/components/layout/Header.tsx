@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { ShoppingCart, User, LogOut } from 'lucide-react';
+import { ShoppingCart, User, LogOut, Package } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { useCart } from '../../context/CartContext';
 
@@ -36,6 +36,14 @@ export default function Header() {
 
 					{isAuthenticated ? (
 						<div className="flex items-center gap-3">
+							<Link
+								to="/orders"
+								className="flex items-center gap-1.5 text-sm font-medium text-slate-700 hover:text-slate-900"
+								aria-label="My orders"
+							>
+								<Package size={18} aria-hidden="true" />
+								<span className="hidden sm:inline">My Orders</span>
+							</Link>
 							<span className="flex items-center gap-1.5 text-sm font-medium text-slate-700">
 								<User size={18} aria-hidden="true" />
 								{user!.name}

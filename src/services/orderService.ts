@@ -9,6 +9,18 @@ export class OrderError extends Error {
   }
 }
 
+export async function getMyOrders(accessToken: string): Promise<OrderResponse[]> {
+  const response = await fetch(createApiUrl('/api/orders/my-orders'), {
+    headers: { Authorization: `Bearer ${accessToken}` },
+  });
+  if (!response.ok) {
+    const message = await extractErrorMessage(response);
+    throw new OrderError(message);
+  }
+  const data: unknown = await response.json();
+  return data as OrderResponse[];
+}
+
 export async function fetchOrder(
   accessToken: string,
   orderId: string,
