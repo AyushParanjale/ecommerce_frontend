@@ -13,11 +13,14 @@ export default function LoginPage() {
 	const [error, setError] = useState<string | null>(null);
 	const [isSubmitting, setIsSubmitting] = useState(false);
 
+	const from =
+		(location.state as { from?: { pathname: string } } | null)?.from?.pathname ?? '/';
+
 	function doLogin() {
 		login({ email, password }).then(
 			() => {
 				setIsSubmitting(false);
-				navigate('/');
+				navigate(from, { replace: true });
 			},
 			(err: unknown) => {
 				setError(

@@ -1,7 +1,9 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { Package } from 'lucide-react';
 import type { Product } from '../types/product';
+import { useAuth } from '../context/AuthContext';
+import { useCart } from '../context/CartContext';
 
 interface ProductCardProps {
 	product: Product;
@@ -9,8 +11,24 @@ interface ProductCardProps {
 
 export default function ProductCard({ product }: ProductCardProps) {
 	const [imageError, setImageError] = useState(false);
+	const [cartError, setCartError] = useState<string | null>(null);
+	const { isAuthenticated } = useAuth();
+	const { addItem } = useCart();
+	const navigate = useNavigate();
+	const location = useLocation();
 
 	const showFallback = !product.imageUrl || imageError;
+
+	function handleAddToCart() {
+		if (!isAuthenticated) {
+			navigate('/login', { state: { from: location } });
+			return;
+		}
+		setCartError(null);
+		addItem(product.id, 1).catch((err: unknown) => {
+			setCartError(err instanceof Error ? err.message : 'Failed to add to cart.');
+		});
+	}
 
 	return (
 		<article className="flex flex-col overflow-hidden rounded-lg bg-white shadow-sm transition-shadow hover:shadow-md">
@@ -49,11 +67,15 @@ export default function ProductCard({ product }: ProductCardProps) {
 
 				<button
 					type="button"
+					onClick={handleAddToCart}
 					className="w-full rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-blue-700"
 					aria-label={`Add ${product.name} to cart`}
 				>
 					Add to cart
 				</button>
+				{cartError && (
+					<p className="mt-2 text-xs text-red-600">{cartError}</p>
+				)}
 			</div>
 		</article>
 	);

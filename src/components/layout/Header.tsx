@@ -1,9 +1,11 @@
 import { Link } from 'react-router-dom';
 import { ShoppingCart, User, LogOut } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
+import { useCart } from '../../context/CartContext';
 
 export default function Header() {
 	const { user, isAuthenticated, logout } = useAuth();
+	const { cart } = useCart();
 
 	return (
 		<header className="sticky top-0 z-10 border-b bg-white">
@@ -21,16 +23,16 @@ export default function Header() {
 				</div>
 
 				<div className="flex items-center gap-4">
-					<button
-						type="button"
-						aria-label="View cart, 0 items"
+					<Link
+						to="/cart"
+						aria-label={`View cart, ${cart?.totalItems ?? 0} items`}
 						className="relative text-slate-700 hover:text-slate-900"
 					>
 						<ShoppingCart size={22} aria-hidden="true" />
 						<span className="absolute -right-2 -top-2 flex h-5 w-5 items-center justify-center rounded-full bg-blue-600 text-xs text-white">
-							0
+							{cart?.totalItems ?? 0}
 						</span>
-					</button>
+					</Link>
 
 					{isAuthenticated ? (
 						<div className="flex items-center gap-3">

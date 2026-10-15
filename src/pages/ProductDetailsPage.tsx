@@ -1,8 +1,10 @@
 import { useState, useEffect } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link, useNavigate, useLocation } from 'react-router-dom';
 import { Package, ArrowLeft } from 'lucide-react';
 import { fetchProductById, NotFoundError } from '../services/productService';
 import type { Product } from '../types/product';
+import { useAuth } from '../context/AuthContext';
+import { useCart } from '../context/CartContext';
 
 export default function ProductDetailsPage() {
 	const { productId } = useParams<{ productId: string }>();
@@ -11,6 +13,11 @@ export default function ProductDetailsPage() {
 	const [notFound, setNotFound] = useState(false);
 	const [error, setError] = useState<string | null>(null);
 	const [imageError, setImageError] = useState(false);
+	const [cartError, setCartError] = useState<string | null>(null);
+	const { isAuthenticated } = useAuth();
+	const { addItem } = useCart();
+	const navigate = useNavigate();
+	const location = useLocation();
 
 	function loadProduct() {
 		if (!productId) return;
@@ -35,6 +42,18 @@ export default function ProductDetailsPage() {
 		setNotFound(false);
 		setError(null);
 		loadProduct();
+	}
+
+	function handleAddToCart() {
+		if (!isAuthenticated) {
+			navigate('/login', { state: { from: location } });
+			return;
+		}
+		if (!product) return;
+		setCartError(null);
+		addItem(product.id, 1).catch((err: unknown) => {
+			setCartError(err instanceof Error ? err.message : 'Failed to add to cart.');
+		});
 	}
 
 	useEffect(() => {
@@ -137,12 +156,16 @@ export default function ProductDetailsPage() {
 
 						<button
 							type="button"
+							onClick={handleAddToCart}
 							disabled={product.stockQuantity === 0}
 							className="rounded-lg bg-blue-600 px-6 py-3 text-base font-medium text-white transition-colors hover:bg-blue-700 disabled:cursor-not-allowed disabled:bg-slate-300 disabled:text-slate-500"
 							aria-label={`Add ${product.name} to cart`}
 						>
 							Add to Cart
 						</button>
+						{cartError && (
+							<p className="mt-2 text-sm text-red-600">{cartError}</p>
+						)}
 					</div>
 				</div>
 			)}
