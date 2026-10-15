@@ -182,13 +182,12 @@ export default function CartPage() {
           <Link to="/" className="text-sm text-blue-600 hover:text-blue-800 hover:underline">
             ← Continue shopping
           </Link>
-          <button
-            type="button"
-            disabled
-            className="rounded-lg bg-slate-300 px-8 py-3 text-sm font-medium text-slate-500 cursor-not-allowed"
+          <Link
+            to="/checkout"
+            className="rounded-lg bg-blue-600 px-8 py-3 text-sm font-medium text-white transition-colors hover:bg-blue-700"
           >
             Proceed to Checkout
-          </button>
+          </Link>
         </div>
       </div>
     </main>

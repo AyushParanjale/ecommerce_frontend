@@ -7,6 +7,9 @@ import RegisterPage from './pages/RegisterPage';
 import NotFoundPage from './pages/NotFoundPage';
 import ProtectedRoute from './components/ProtectedRoute';
 import CartPage from './pages/CartPage';
+import CheckoutPage from './pages/CheckoutPage';
+import PaymentPage from './pages/PaymentPage';
+import OrderResultPage from './pages/OrderResultPage';
 
 export default function App() {
 	return (
@@ -18,6 +21,9 @@ export default function App() {
 				<Route path="/register" element={<RegisterPage />} />
 				<Route element={<ProtectedRoute />}>
 					<Route path="cart" element={<CartPage />} />
+					<Route path="checkout" element={<CheckoutPage />} />
+					<Route path="orders/:orderId/payment" element={<PaymentPage />} />
+					<Route path="orders/:orderId/result" element={<OrderResultPage />} />
 				</Route>
 				<Route path="*" element={<NotFoundPage />} />
 			</Route>
