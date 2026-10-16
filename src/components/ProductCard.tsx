@@ -10,6 +10,7 @@ interface ProductCardProps {
 }
 
 export default function ProductCard({ product }: ProductCardProps) {
+
 	const [imageError, setImageError] = useState(false);
 	const [cartError, setCartError] = useState<string | null>(null);
 	const { isAuthenticated } = useAuth();
@@ -20,11 +21,14 @@ export default function ProductCard({ product }: ProductCardProps) {
 	const showFallback = !product.imageUrl || imageError;
 
 	function handleAddToCart() {
+
 		if (!isAuthenticated) {
 			navigate('/login', { state: { from: location } });
 			return;
 		}
+
 		setCartError(null);
+
 		addItem(product.id, 1).catch((err: unknown) => {
 			setCartError(err instanceof Error ? err.message : 'Failed to add to cart.');
 		});

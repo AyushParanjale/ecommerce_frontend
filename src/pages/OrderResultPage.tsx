@@ -8,6 +8,7 @@ import { fetchOrder, fetchOrderPayment, OrderError } from '../services/orderServ
 const PAYMENT_KEY_PREFIX = 'reprua_payment_key_';
 
 export default function OrderResultPage() {
+
 	const { orderId } = useParams<{ orderId: string }>();
 	const { accessToken } = useAuth();
 

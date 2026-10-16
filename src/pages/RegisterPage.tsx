@@ -6,6 +6,7 @@ import { register } from '../services/authService';
 import { AuthError } from '../services/authService';
 
 export default function RegisterPage() {
+
 	const { isAuthenticated, isRestoringSession } = useAuth();
 	const navigate = useNavigate();
 	const [name, setName] = useState('');

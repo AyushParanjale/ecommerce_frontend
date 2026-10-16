@@ -17,6 +17,8 @@ import AdminDashboardPage from './pages/admin/AdminDashboardPage';
 import AdminProductListPage from './pages/admin/AdminProductListPage';
 import AdminProductCreatePage from './pages/admin/AdminProductCreatePage';
 import AdminProductEditPage from './pages/admin/AdminProductEditPage';
+import AdminOrderListPage from './pages/admin/AdminOrderListPage';
+import AdminOrderDetailsPage from './pages/admin/AdminOrderDetailsPage';
 
 export default function App() {
 	return (
@@ -41,6 +43,10 @@ export default function App() {
 							<Route index element={<AdminProductListPage />} />
 							<Route path="new" element={<AdminProductCreatePage />} />
 							<Route path=":productId/edit" element={<AdminProductEditPage />} />
+						</Route>
+						<Route path="orders">
+							<Route index element={<AdminOrderListPage />} />
+							<Route path=":orderId" element={<AdminOrderDetailsPage />} />
 						</Route>
 					</Route>
 				</Route>

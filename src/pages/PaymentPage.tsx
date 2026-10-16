@@ -9,6 +9,7 @@ import { submitPayment, PaymentError } from '../services/paymentService';
 const PAYMENT_KEY_PREFIX = 'reprua_payment_key_';
 
 export default function PaymentPage() {
+
 	const { orderId } = useParams<{ orderId: string }>();
 	const { accessToken } = useAuth();
 	const navigate = useNavigate();

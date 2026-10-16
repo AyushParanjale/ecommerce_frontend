@@ -6,6 +6,7 @@ import { fetchProductById, updateProduct, NotFoundError, ApiError } from '../../
 import { useAuth } from '../../context/AuthContext';
 
 export default function AdminProductEditPage() {
+
 	const { productId } = useParams<{ productId: string }>();
 	const { accessToken } = useAuth();
 	const navigate = useNavigate();
@@ -19,6 +20,7 @@ export default function AdminProductEditPage() {
 	const [serverFieldErrors, setServerFieldErrors] = useState<Record<string, string[]> | undefined>();
 
 	useEffect(() => {
+
 		if (!productId) return;
 		let ignore = false;
 
@@ -45,14 +47,19 @@ export default function AdminProductEditPage() {
 	}, [productId]);
 
 	async function handleSubmit(data: CreateProductRequest) {
+
 		if (!productId) return;
+
 		setIsSubmitting(true);
 		setServerError(undefined);
 		setServerFieldErrors(undefined);
+
 		try {
+
 			await updateProduct(productId, data, accessToken!);
 			navigate('/admin/products');
 		} catch (err: unknown) {
+
 			if (err instanceof ApiError && err.fieldErrors) {
 				setServerFieldErrors(err.fieldErrors);
 			} else if (err instanceof ApiError && err.status === 403) {

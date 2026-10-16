@@ -5,6 +5,7 @@ interface CategoryFilterProps {
 }
 
 export default function CategoryFilter({ categories, selected, onSelect }: CategoryFilterProps) {
+
 	return (
 		<div className="mb-8 flex flex-wrap gap-2">
 			{categories.map((category) => (

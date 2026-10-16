@@ -17,6 +17,7 @@ interface AuthContextValue {
 const AuthContext = createContext<AuthContextValue | null>(null);
 
 export function AuthProvider({ children }: { children: ReactNode }) {
+
 	const [user, setUser] = useState<User | null>(null);
 	const [accessToken, setAccessToken] = useState<string | null>(null);
 	const [isRestoringSession, setIsRestoringSession] = useState(() =>
@@ -24,10 +25,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 	);
 
 	useEffect(() => {
+
 		const storedToken = localStorage.getItem(ACCESS_TOKEN_KEY);
+
 		if (!storedToken) {
 			return;
 		}
+
 		getMe(storedToken)
 			.then((fetchedUser) => {
 				setUser(fetchedUser);
@@ -42,6 +46,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 	}, []);
 
 	function doLogin(request: LoginRequest): Promise<void> {
+
 		return loginService(request).then((response) => {
 			localStorage.setItem(ACCESS_TOKEN_KEY, response.accessToken);
 			setUser(response.user);
@@ -50,6 +55,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 	}
 
 	function logout() {
+
 		localStorage.removeItem(ACCESS_TOKEN_KEY);
 		setUser(null);
 		setAccessToken(null);
@@ -72,9 +78,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 }
 
 export function useAuth(): AuthContextValue {
+
 	const ctx = useContext(AuthContext);
+
 	if (!ctx) {
 		throw new Error('useAuth must be used inside AuthProvider');
 	}
+
 	return ctx;
 }

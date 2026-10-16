@@ -7,6 +7,7 @@ import { useAuth } from '../context/AuthContext';
 import { useCart } from '../context/CartContext';
 
 export default function ProductDetailsPage() {
+
 	const { productId } = useParams<{ productId: string }>();
 	const [product, setProduct] = useState<Product | null>(null);
 	const [loading, setLoading] = useState(true);
@@ -144,9 +145,8 @@ export default function ProductDetailsPage() {
 								${product.price.toFixed(2)}
 							</span>
 							<span
-								className={`text-sm font-medium ${
-									product.stockQuantity > 0 ? 'text-green-600' : 'text-red-500'
-								}`}
+								className={`text-sm font-medium ${product.stockQuantity > 0 ? 'text-green-600' : 'text-red-500'
+									}`}
 							>
 								{product.stockQuantity > 0
 									? `${product.stockQuantity} in stock`

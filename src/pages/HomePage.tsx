@@ -9,12 +9,14 @@ import { fetchProducts } from '../services/productService';
 import type { Product } from '../types/product';
 
 export default function HomePage() {
+
 	const [products, setProducts] = useState<Product[]>([]);
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState<string | null>(null);
 	const [searchParams, setSearchParams] = useSearchParams();
 
 	function loadProducts() {
+
 		fetchProducts()
 			.then((data) => {
 				setProducts(data);
@@ -35,6 +37,7 @@ export default function HomePage() {
 	}
 
 	function handleRetry() {
+
 		setLoading(true);
 		setError(null);
 		loadProducts();

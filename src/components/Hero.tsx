@@ -1,4 +1,5 @@
 export default function Hero() {
+
 	return (
 		<section className="border-b bg-white">
 			<div className="mx-auto max-w-7xl px-6 py-16 text-center">

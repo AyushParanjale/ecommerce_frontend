@@ -4,6 +4,7 @@ interface ErrorStateProps {
 }
 
 export default function ErrorState({ message, onRetry }: ErrorStateProps) {
+
 	return (
 		<div className="py-20 text-center">
 			<p className="text-lg font-medium text-slate-900">Failed to load products</p>

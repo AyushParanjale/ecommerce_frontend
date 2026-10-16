@@ -6,6 +6,7 @@ import { createProduct, ApiError } from '../../services/productService';
 import { useAuth } from '../../context/AuthContext';
 
 export default function AdminProductCreatePage() {
+
 	const { accessToken } = useAuth();
 	const navigate = useNavigate();
 	const [isSubmitting, setIsSubmitting] = useState(false);
@@ -13,13 +14,17 @@ export default function AdminProductCreatePage() {
 	const [serverFieldErrors, setServerFieldErrors] = useState<Record<string, string[]> | undefined>();
 
 	async function handleSubmit(data: CreateProductRequest) {
+
 		setIsSubmitting(true);
 		setServerError(undefined);
 		setServerFieldErrors(undefined);
+
 		try {
+
 			await createProduct(data, accessToken!);
 			navigate('/admin/products');
 		} catch (err: unknown) {
+
 			if (err instanceof ApiError && err.fieldErrors) {
 				setServerFieldErrors(err.fieldErrors);
 			} else if (err instanceof ApiError && err.status === 403) {
@@ -30,11 +35,13 @@ export default function AdminProductCreatePage() {
 				);
 			}
 		} finally {
+
 			setIsSubmitting(false);
 		}
 	}
 
 	return (
+
 		<main className="mx-auto max-w-2xl px-6 py-10">
 			<div className="mb-6">
 				<Link to="/admin/products" className="text-sm text-slate-500 hover:text-slate-700 hover:underline">

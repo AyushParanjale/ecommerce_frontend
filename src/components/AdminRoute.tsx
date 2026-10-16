@@ -3,6 +3,7 @@ import { useAuth } from '../context/AuthContext';
 
 // UX-only guard — backend authorization is the real security boundary.
 export default function AdminRoute() {
+
 	const { user } = useAuth();
 
 	if (user?.role !== 'Admin') {
